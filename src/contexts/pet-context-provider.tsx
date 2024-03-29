@@ -12,6 +12,7 @@ type TPetContext = {
   pets: Pet[];
   selectedPetId: string | null;
   selectedPet: Pet | undefined;
+  numPets: number | undefined;
   handleChangeSelectedPetId: (id: string) => void;
 };
 
@@ -33,14 +34,17 @@ export default function PetContextProvider({
     [pets, selectedPetId]
   );
 
+  const numPets = useMemo(() => pets.length, [pets]);
+
   const value = useMemo(
     () => ({
       pets,
       selectedPetId,
       selectedPet,
+      numPets,
       handleChangeSelectedPetId,
     }),
-    [pets, selectedPetId, selectedPet, handleChangeSelectedPetId]
+    [pets, selectedPetId, selectedPet, numPets, handleChangeSelectedPetId]
   );
 
   return <PetContext.Provider value={value}>{children}</PetContext.Provider>;
