@@ -1,3 +1,4 @@
+import ActionButton from "@/components/action-button";
 import Branding from "@/components/branding";
 import ContentBlock from "@/components/content-block";
 import PetDetails from "@/components/pet-details";
@@ -19,9 +20,13 @@ export default function Dashboard() {
           <SearchForm />
         </div>
 
-        <div className="md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1">
+        <div className="relative md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1">
           <ContentBlock>
             <PetList />
+
+            <div className="absolute bottom-4 right-4">
+              <ActionButton actionType="add" />
+            </div>
           </ContentBlock>
         </div>
 

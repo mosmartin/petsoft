@@ -3,6 +3,7 @@
 import { usePetContext } from "@/lib/hooks";
 import { Pet } from "@/lib/types";
 import Image from "next/image";
+import ActionButton from "./action-button";
 
 type PetProps = {
   pet: Pet;
@@ -28,6 +29,8 @@ export default function PetDetails() {
 }
 
 function TopBar({ pet }: Readonly<PetProps>) {
+  const { handleDeletePet } = usePetContext();
+
   return (
     <div className="flex items-center bg-white px-8 py-5 border-b border-light">
       <Image
@@ -39,6 +42,15 @@ function TopBar({ pet }: Readonly<PetProps>) {
       />
 
       <h2 className="text-3xl font-semibold leading-7 ml-5">{pet?.name}</h2>
+
+      <div className="ml-auto space-x-2">
+        <ActionButton actionType="edit" />
+
+        <ActionButton
+          actionType="delete"
+          onClick={() => handleDeletePet(pet.id)}
+        />
+      </div>
     </div>
   );
 }

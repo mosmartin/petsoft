@@ -14,6 +14,7 @@ type TPetContext = {
   selectedPet: Pet | undefined;
   numPets: number | undefined;
   handleChangeSelectedPetId: (id: string) => void;
+  handleDeletePet: (id: string) => void;
 };
 
 export const PetContext = createContext<TPetContext | null>(null);
@@ -27,6 +28,12 @@ export default function PetContextProvider({
 
   const handleChangeSelectedPetId = useCallback((id: string) => {
     setSelectedPetId(id);
+  }, []);
+
+  const handleDeletePet = useCallback((id: string) => {
+    setPets((prevPets) => prevPets.filter((pet) => pet.id !== id));
+
+    setSelectedPetId(null);
   }, []);
 
   const selectedPet = useMemo(
@@ -43,8 +50,16 @@ export default function PetContextProvider({
       selectedPet,
       numPets,
       handleChangeSelectedPetId,
+      handleDeletePet,
     }),
-    [pets, selectedPetId, selectedPet, numPets, handleChangeSelectedPetId]
+    [
+      pets,
+      selectedPetId,
+      selectedPet,
+      numPets,
+      handleChangeSelectedPetId,
+      handleDeletePet,
+    ]
   );
 
   return <PetContext.Provider value={value}>{children}</PetContext.Provider>;
