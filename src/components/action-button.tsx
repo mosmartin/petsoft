@@ -1,3 +1,5 @@
+"use client";
+
 import { Cross1Icon, Pencil1Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import {
@@ -8,6 +10,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import PetForm from "./pet-form";
+import { useState } from "react";
 
 type ActionButtonProps = {
   actionType: "add" | "edit" | "delete";
@@ -18,6 +21,8 @@ export default function ActionButton({
   actionType,
   onClick,
 }: Readonly<ActionButtonProps>) {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
   if (actionType === "delete") {
     return (
       <Button variant="destructive" onClick={onClick}>
@@ -27,7 +32,7 @@ export default function ActionButton({
   }
 
   return (
-    <Dialog>
+    <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
       <DialogTrigger asChild>
         {actionType === "add" ? (
           <Button size="icon">
@@ -47,7 +52,12 @@ export default function ActionButton({
           </DialogTitle>
         </DialogHeader>
 
-        <PetForm actionType={actionType} />
+        <PetForm
+          actionType={actionType}
+          onFormSubmission={() => {
+            setIsFormOpen(false);
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

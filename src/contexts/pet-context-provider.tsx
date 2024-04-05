@@ -13,7 +13,7 @@ type TPetContext = {
   selectedPetId: string | null;
   selectedPet: Pet | undefined;
   numPets: number | undefined;
-  handleAddPet: (pet: Pet) => void;
+  handleAddPet: (pet: Omit<Pet, "id">) => void;
   handleChangeSelectedPetId: (id: string) => void;
   handleDeletePet: (id: string) => void;
 };
@@ -27,8 +27,8 @@ export default function PetContextProvider({
   const [pets, setPets] = useState(data);
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
 
-  const handleAddPet = useCallback((pet: Pet) => {
-    setPets((prevPets) => [...prevPets, pet]);
+  const handleAddPet = useCallback((pet: Omit<Pet, "id">) => {
+    setPets((prevPets) => [...prevPets, { ...pet, id: String(Date.now()) }]);
   }, []);
 
   const handleChangeSelectedPetId = useCallback((id: string) => {
