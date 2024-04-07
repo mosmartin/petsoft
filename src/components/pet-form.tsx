@@ -15,7 +15,7 @@ export default function PetForm({
   actionType,
   onFormSubmission,
 }: Readonly<PetFormProps>) {
-  const { handleAddPet } = usePetContext();
+  const { handleAddPet, handleEditPet, selectedPet } = usePetContext();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +30,11 @@ export default function PetForm({
       age: parseInt(formData.get("age") as string),
       notes: formData.get("notes") as string,
     };
+
+    if (actionType === "edit") {
+      handleEditPet(selectedPet?.id as string, pet);
+      return onFormSubmission();
+    }
 
     handleAddPet(pet);
 
@@ -47,6 +52,7 @@ export default function PetForm({
             name="name"
             placeholder="Enter pet name"
             required
+            defaultValue={actionType === "edit" ? selectedPet?.name : ""}
           />
         </div>
 
@@ -58,6 +64,7 @@ export default function PetForm({
             name="owner"
             placeholder="Enter owner name"
             required
+            defaultValue={actionType === "edit" ? selectedPet?.ownerName : ""}
           />
         </div>
 
@@ -68,6 +75,7 @@ export default function PetForm({
             type="text"
             name="imageUrl"
             placeholder="Enter image URL"
+            defaultValue={actionType === "edit" ? selectedPet?.imageUrl : ""}
           />
         </div>
 
@@ -79,6 +87,7 @@ export default function PetForm({
             name="age"
             placeholder="Enter pet age"
             required
+            defaultValue={actionType === "edit" ? selectedPet?.age : ""}
           />
         </div>
 
@@ -86,10 +95,11 @@ export default function PetForm({
           <Label htmlFor="notes">Notes</Label>
           <Textarea
             id="notes"
-            name="rows"
+            name="notes"
             rows={3}
             placeholder="Enter notes"
             required
+            defaultValue={actionType === "edit" ? selectedPet?.notes : ""}
           />
         </div>
       </div>

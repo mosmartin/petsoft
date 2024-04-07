@@ -15,6 +15,7 @@ type TPetContext = {
   numPets: number | undefined;
   handleAddPet: (pet: Omit<Pet, "id">) => void;
   handleChangeSelectedPetId: (id: string) => void;
+  handleEditPet: (petId: string, pet: Omit<Pet, "id">) => void;
   handleDeletePet: (id: string) => void;
 };
 
@@ -33,6 +34,14 @@ export default function PetContextProvider({
 
   const handleChangeSelectedPetId = useCallback((id: string) => {
     setSelectedPetId(id);
+  }, []);
+
+  const handleEditPet = useCallback((petId: string, pet: Omit<Pet, "id">) => {
+    setPets((prevPets) =>
+      prevPets.map((prevPet) =>
+        prevPet.id === petId ? { id: petId, ...pet } : prevPet
+      )
+    );
   }, []);
 
   const handleDeletePet = useCallback((id: string) => {
@@ -56,6 +65,7 @@ export default function PetContextProvider({
       numPets,
       handleAddPet,
       handleChangeSelectedPetId,
+      handleEditPet,
       handleDeletePet,
     }),
     [
@@ -65,6 +75,7 @@ export default function PetContextProvider({
       numPets,
       handleAddPet,
       handleChangeSelectedPetId,
+      handleEditPet,
       handleDeletePet,
     ]
   );
